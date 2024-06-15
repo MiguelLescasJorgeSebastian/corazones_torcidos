@@ -1,31 +1,43 @@
-import { useState } from 'react';
-import { corazones_torcidos_backend } from 'declarations/corazones_torcidos_backend';
+import React from "react";
+import LoggedOut from "./components/LoggedOut";
+import { useAuth, AuthProvider } from "./services/use-auth-client";
+import LoggedIn from "./components/LoggedIn";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Welcome from './pages/welcome';
+import Navbar from './components/navbar';
+import PersonalizarTour from "./pages/PersonalizarTour";
+
+
 
 function App() {
-  const [greeting, setGreeting] = useState('');
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    corazones_torcidos_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
-
+  const { isAuthenticated, identity } = useAuth();
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <Router>
+     <Routes>
+     <Route path="/login" element={<LoggedOut/>} />
+      <Route path="/registro" element={<PersonalizarTour/>} />
+      </Routes>
+      {isAuthenticated ? <Navigate to="/inicio" /> : <Navigate to="/login" />}
+      {isAuthenticated && <Navbar/>}
+      <main id="pageContent">
+     
+        <Routes>
+         
+          <Route path="/inicio" element={<Welcome/>} />
+          <Route path="/registro" element={<PersonalizarTour/>} />
+
+          {/* Añade aquí otras rutas */}
+         
+        </Routes>
+    
+      </main>
+      
+    </Router>
   );
 }
 
-export default App;
+export default () => (
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+);
