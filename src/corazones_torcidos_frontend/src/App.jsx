@@ -13,25 +13,15 @@ function App() {
   const { isAuthenticated, identity } = useAuth();
   return (
     <Router>
-     <Routes>
-     <Route path="/login" element={<LoggedOut/>} />
-      <Route path="/registro" element={<PersonalizarTour/>} />
-      </Routes>
-      {isAuthenticated ? <Navigate to="/inicio" /> : <Navigate to="/login" />}
       {isAuthenticated && <Navbar/>}
       <main id="pageContent">
-     
         <Routes>
-         
-          <Route path="/inicio" element={<Welcome/>} />
+          <Route path="/login" element={<LoggedOut/>} />
           <Route path="/registro" element={<PersonalizarTour/>} />
-
+          <Route path="/inicio" element={isAuthenticated ? <Welcome/> : null } />
           {/* Añade aquí otras rutas */}
-         
         </Routes>
-    
       </main>
-      
     </Router>
   );
 }
