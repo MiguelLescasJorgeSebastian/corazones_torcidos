@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "corazones_torcidos_backend": {
+      "main": "src/corazones_torcidos_backend/main.mo",
+      "type": "motoko"
+    },
+    "corazones_torcidos_frontend": {
+      "dependencies": [
+        "corazones_torcidos_backend"
+      ],
+      "source": [
+        "src/corazones_torcidos_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "corazones_torcidos_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
